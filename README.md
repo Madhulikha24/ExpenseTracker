@@ -1,4 +1,4 @@
-# Expense-Tracker-MERN<br>![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+# Expense-Tracker-MERN
 
   ## Description
 
@@ -15,20 +15,10 @@
   - [Tests](#tests)
   - [Questions](#questions)
   
-  ## Installation
-  
-  deployed app URL:  https://expense-tracker-mern.herokuapp.com/
+
   
   ## Usage
   
   sign up/log in to deployed URL above
 
-  ## License
-This application is covered under the MIT License.
-<br>For more information: https://opensource.org/licenses/MIT
-  
-  ## Contributors
-  Bill Stephens https://github.com/BillStephens2022 <br>
-  Jonathan Plaras https://github.com/pljon <br>
-  Joe Sedlak https://github.com/jsedlak146 <br>
-  Marc Nicolas https://github.com/marcnicolas0915 <br>
+
