@@ -1,0 +1,236 @@
+:root {
+  /* Professional Palette: Blues, Greys, Clean Whites */
+  /* Assuming these are loaded from a global CSS or the Home.css.
+     If not, uncomment and include them here. */
+  /*
+  --prof-bg-dark: #2C3E50;
+  --prof-bg-medium: #34495E;
+  --prof-bg-light: #ECF0F1;
+  --prof-accent-primary: #3498DB;
+  --prof-accent-secondary: #5DADE2;
+  --prof-border-neutral: #BDC3C7;
+  --prof-text-on-dark: #EAEAEA;
+  --prof-text-on-light: #212F3C;
+  --prof-shadow-color: rgba(44, 62, 80, 0.12);
+  --prof-shadow-stronger: rgba(44, 62, 80, 0.20);
+  */
+
+  /* Using theme-defined shadow for consistency */
+  --text-shadow-professional: 1px 1px 2px var(--prof-shadow-color); /* More subtle text shadow */
+}
+
+body {
+    /* Add perspective if not already on a parent container or body */
+    perspective: 1500px;
+    /* Ensure body background and text defaults align if this CSS is standalone */
+    /* background: var(--prof-bg-dark); */
+    /* color: var(--prof-text-on-dark); */
+}
+
+.transaction-form {
+  background: var(--prof-bg-light);
+  margin: 5% auto;
+  width: 85%;
+  min-height: 50vh;
+  border-radius: 12px; /* Consistent with professional theme */
+  box-shadow: var(--prof-shadow-stronger) 8px 8px 20px;
+  /* Add 3D transitions */
+  transition: transform 0.5s ease-out, box-shadow 0.5s ease;
+  transform-style: preserve-3d; /* For potential nested 3D elements */
+}
+
+.transaction-form:hover {
+    transform: rotateX(1deg) rotateY(-1deg) translateZ(10px); /* Subtle tilt and lift */
+    box-shadow: var(--prof-shadow-stronger) 12px 12px 30px rgba(44, 62, 80, 0.25); /* Enhanced shadow */
+}
+
+/* Assuming .container is a generic wrapper, its h1 styling: */
+.container h1 { /* Or a more specific selector if needed */
+  margin-bottom: 15px;
+  color: var(--prof-text-on-light); /* Text on light background */
+}
+
+.transaction-form .form-control {
+  margin-bottom: 15px;
+  color: var(--prof-text-on-light);
+  border-color: var(--prof-border-neutral);
+  border-radius: 6px; /* Slightly rounded inputs */
+}
+
+.transaction-form .form-control::placeholder {
+  color: var(--prof-border-neutral); /* Lighter placeholder */
+}
+
+.transaction-form .form-control:focus {
+  border-color: var(--prof-accent-primary);
+  box-shadow: 0 0 0 0.2rem rgba(var(--prof-accent-primary), 0.25);
+}
+
+
+.transaction-image {
+  text-align: center;
+  /* Add perspective for the image to appear to tilt out */
+  perspective: 500px;
+}
+
+.transaction-image img {
+  width: 15%; /* This seems quite small, adjust if needed */
+  margin-top: -7%;
+  transition: transform 0.4s ease, box-shadow 0.4s ease; /* Added box-shadow transition */
+  transform-style: preserve-3d;
+  border-radius: 8px; /* Optional: if image itself should have rounded corners */
+}
+
+.transaction-image img:hover {
+    transform: rotateY(10deg) rotateX(5deg) scale(1.1) translateZ(25px); /* More pronounced 3D rotation */
+    box-shadow: var(--prof-shadow-stronger) 5px 5px 15px;
+}
+
+
+.transaction-form form {
+  padding: 10%; /* Adjusted padding for a cleaner look */
+  color: var(--prof-text-on-light);
+}
+
+.input-group-append { /* Assuming this is for Bootstrap-like input groups */
+  height: 2.35em; /* Or match form-control height */
+}
+
+.error-message {
+  color: #E74C3C; /* A standard error red */
+  font-size: 0.9em; /* Slightly smaller */
+  margin-top: 5px;
+}
+
+.add-transaction-button {
+  background: linear-gradient(45deg, var(--prof-accent-primary), var(--prof-accent-secondary));
+  color: var(--prof-text-on-dark) !important; /* Ensure text is light on dark button */
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px; /* Consistent with professional theme */
+  font-weight: 600;
+  box-shadow: var(--prof-shadow-stronger) 0px 6px 15px;
+  transition: all 0.3s ease;
+  background-size: 200% auto;
+  letter-spacing: 0.5px;
+  transform-style: preserve-3d;
+  transform: translateZ(0); /* Initialize Z-position */
+}
+
+.add-transaction-button:hover {
+  background-position: right center;
+  transform: translateY(-3px) scale(1.02) translateZ(15px); /* Lift and push forward */
+  box-shadow: var(--prof-shadow-stronger) 0px 8px 20px;
+}
+
+.card { /* Styling for individual transaction cards */
+  background: linear-gradient(135deg, var(--prof-bg-medium), var(--prof-bg-dark)); /* Professional dark gradient */
+  color: var(--prof-text-on-dark);
+  width: 300px; /* Adjust as needed */
+  margin: 10px; /* Spacing between cards */
+  padding: 15px;
+  text-align: left; /* Usually better for card content */
+  box-shadow: var(--prof-shadow-stronger) 5px 5px 15px;
+  border: 1px solid var(--prof-accent-primary); /* Accent border */
+  border-radius: 10px; /* Consistent rounded corners */
+  /* Add 3D transitions for individual transaction cards */
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card:hover {
+    transform: rotateY(-3deg) translateZ(15px); /* Gentle tilt and lift */
+    box-shadow: var(--prof-shadow-stronger) 8px 8px 25px rgba(44, 62, 80, 0.25);
+}
+
+.transaction-category { /* Example class within a card */
+  margin-left: 10px; /* Or use padding on parent */
+  color: var(--prof-text-on-dark); /* Text on dark card background */
+  font-weight: 500;
+}
+
+.expense-tracker-header { /* Main title for the expense tracker section */
+  color: var(--prof-accent-primary);
+  text-shadow: var(--text-shadow-professional);
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#transaction-table-header { /* Title above the transactions list/table */
+  text-align: center;
+  color: var(--prof-accent-primary);
+  text-shadow: var(--text-shadow-professional);
+  font-size: 1.8em;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.sort-div {
+  width: 50%;
+  margin: 20px auto;
+  display: flex; /* For better alignment of label and select */
+  justify-content: center;
+  align-items: center;
+}
+
+.sort { /* Assuming this is a label or text next to a sort dropdown */
+  color: var(--prof-text-on-light); /* If on light background, else --prof-text-on-dark */
+  margin-right: 10px; /* Space between label and dropdown */
+  font-weight: 500;
+}
+
+/* Style for the select dropdown itself if needed */
+.sort-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--prof-border-neutral);
+  background-color: var(--prof-bg-light);
+  color: var(--prof-text-on-light);
+}
+
+.spending { /* Text displaying spending amounts */
+  font-size: 1.5em;
+  color: var(--prof-text-on-light); /* Or --prof-accent-primary for emphasis */
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 767px) {
+  .transaction-form {
+    width: 95%;
+    margin: 5% auto; /* Increased margin for small screens */
+    transform: none !important; /* Disable 3D on small screens */
+    box-shadow: var(--prof-shadow-stronger) 8px 8px 20px !important; /* Reset shadow */
+  }
+  .transaction-form form {
+    padding: 7%;
+  }
+  .transaction-image img {
+    width: 25%; /* Adjust if needed */
+    margin-top: -10%;
+    transform: none !important; /* Disable 3D on small screens */
+    box-shadow: none !important; /* Reset shadow */
+  }
+  .card {
+    width: 90%;
+    margin: 10px auto;
+    transform: none !important; /* Disable 3D on small screens */
+    box-shadow: var(--prof-shadow-stronger) 5px 5px 15px !important; /* Reset shadow */
+  }
+  .sort-div {
+    width: 80%;
+    flex-direction: column; /* Stack label and select on small screens */
+  }
+  .sort {
+    margin-bottom: 8px;
+    margin-right: 0;
+  }
+  /* Disable complex 3D effects on mobile for performance */
+  .add-transaction-button:hover {
+      transform: translateY(-2px) scale(1.01) !important; /* Simpler hover */
+      box-shadow: var(--prof-shadow-stronger) 0px 6px 15px !important; /* Reset button shadow */
+  }
+}

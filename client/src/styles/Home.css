@@ -1,0 +1,421 @@
+:root {
+  /* Professional Palette: Blues, Greys, Clean Whites */
+  --prof-bg-dark: #2C3E50;       /* Dark Slate Blue - Main dark background */
+  --prof-bg-medium: #34495E;     /* Wet Asphalt - Secondary dark, gradients */
+  --prof-bg-light: #ECF0F1;      /* Clouds - Light backgrounds for cards/sections */
+  --prof-accent-primary: #3498DB; /* Peter River Blue - Main accent, buttons, links */
+  --prof-accent-secondary: #5DADE2;/* Lighter Blue - Hover states, secondary accents */
+  --prof-border-neutral: #BDC3C7; /* Silver - Borders, dividers */
+  --prof-text-on-dark: #EAEAEA;   /* Very Light Grey - Text on dark backgrounds (updated for readability) */
+  --prof-text-on-light: #212F3C;  /* Very Dark Blue/Almost Black - Text on light backgrounds */
+  --prof-shadow-color: rgba(44, 62, 80, 0.12); /* Softer, cooler subtle shadow */
+  --prof-shadow-stronger: rgba(44, 62, 80, 0.20);/* Slightly stronger shadow for emphasis */
+}
+
+body {
+  font-family: "Montserrat", sans-serif; /* Keeping Montserrat, good professional choice */
+  background: var(--prof-bg-dark); /* Main dark background */
+  color: var(--prof-text-on-dark); /* Light text by default on dark background */
+  margin: 0;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+.home-body {
+  position: relative;
+  font-family: "Montserrat, sans-serif";
+  /* Professional Gradient */
+  background: linear-gradient(135deg,
+    var(--prof-bg-medium) 0%,
+    var(--prof-bg-dark) 50%,
+    var(--prof-bg-medium) 100%
+  );
+  font-weight: 500; /* Slightly reduced for a cleaner look */
+  background-size: 300% 300%;
+  background-position: 0% 0%;
+  animation: gradientBackground 20s ease infinite alternate;
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 20px;
+  margin-bottom: -50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* --- Menu Styling for Professional Theme --- */
+.navbar {
+  z-index: 999;
+  background: rgba(var(--prof-bg-dark), 0.97); /* Slightly more opaque dark */
+  border-bottom: 2px solid var(--prof-accent-primary); /* Accent blue line */
+  box-shadow: var(--prof-shadow-color) 0px 4px 12px;
+  padding: 15px 30px;
+}
+
+.nav-link {
+  color: var(--prof-text-on-dark); /* Light text for visibility */
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 8px; /* Slightly less rounded for professional feel */
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--prof-accent-secondary); /* Highlight with lighter blue */
+  background-color: rgba(var(--prof-accent-primary), 0.1); /* Subtle background on hover */
+  transform: translateY(-2px); /* Kept hover graphic */
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: var(--prof-text-on-dark); /* Text on active pill - ensuring it's light enough */
+  background-color: var(--prof-accent-primary); /* Blue active pill */
+  box-shadow: var(--prof-shadow-stronger) 0px 2px 8px;
+  border-radius: 8px;
+}
+
+.login-signup-button {
+  background: linear-gradient(45deg, var(--prof-accent-primary), var(--prof-accent-secondary)); /* Blue gradient button */
+  color: var(--prof-text-on-dark) !important; /* Ensuring text on button is light */
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px; /* Consistent rounded corners */
+  font-weight: 600;
+  box-shadow: var(--prof-shadow-stronger) 0px 6px 15px;
+  transition: all 0.3s ease;
+  background-size: 200% auto;
+  letter-spacing: 0.5px;
+}
+
+.login-signup-button:hover {
+  background-position: right center; /* Kept hover graphic */
+  transform: translateY(-3px) scale(1.02); /* Kept hover graphic */
+  box-shadow: var(--prof-shadow-stronger) 0px 8px 20px; /* Kept hover graphic */
+}
+/* --- End Menu Styling --- */
+
+
+.home-body h1 {
+  margin-top: 60px;
+  font-family: "Montserrat, sans-serif";
+  font-weight: 700; /* Bold, but not overly heavy */
+  font-size: 5.5em; /* Slightly reduced for a more refined look */
+  color: var(--prof-text-on-dark);
+  text-shadow: 2px 2px var(--prof-shadow-color); /* Softer shadow */
+  animation: fadeInDown 1.5s ease-out;
+  letter-spacing: -1.5px;
+  /* Text gradient with professional colors */
+  background: linear-gradient(90deg, var(--prof-accent-primary), var(--prof-accent-secondary), var(--prof-text-on-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.home-body h6 {
+  font-size: 1.6em; /* Adjusted for balance */
+  font-weight: 400;
+  max-width: 900px; /* Slightly adjusted */
+  padding: 30px 45px; /* Adjusted padding */
+  margin-top: 40px;
+  color: var(--prof-text-on-light); /* Darker text for readability on light background */
+  animation: slideUp 1.2s ease-out;
+  background-color: rgba(var(--prof-bg-light), 0.98);
+  border-radius: 12px; /* Consistent rounded corners */
+  box-shadow: var(--prof-shadow-stronger) 10px 10px 30px; /* Adjusted shadow */
+  line-height: 1.7em;
+  text-align: center;
+  border: 1px solid var(--prof-border-neutral); /* Neutral border */
+}
+
+.chart-div {
+  text-align: center;
+  margin: 60px 0px;
+}
+
+.chart-image {
+  text-align: center;
+  width: 60%;
+  max-width: 600px; /* Slightly reduced max-width */
+  margin: 50px auto;
+  border-radius: 12px; /* Consistent rounded corners */
+  box-shadow: var(--prof-shadow-stronger) 15px 15px 40px; /* Adjusted shadow */
+  animation: fadeInUp 1.5s ease-out;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease-out;
+  border: 3px solid var(--prof-accent-primary); /* Accent border */
+  background-color: var(--prof-bg-light); /* Ensures images have a light backdrop */
+}
+
+.chart-image:hover {
+  transform: scale(1.06) rotate(0.5deg); /* Kept hover graphic */
+  box-shadow: var(--prof-shadow-stronger) 20px 20px 55px; /* Kept hover graphic */
+}
+
+.col-md-12 {
+  background-color: transparent;
+  padding: 40px; /* Adjusted padding */
+}
+
+.row {
+  background-color: transparent;
+  margin-bottom: 60px; /* Adjusted margin */
+  align-items: center;
+}
+
+.mt-5 {
+  text-align: center;
+  align-items: center;
+  margin-top: 60px; /* Adjusted margin */
+}
+
+/* Keyframe for background gradient animation (unchanged values) */
+@keyframes gradientBackground {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Existing Keyframe animations (unchanged mechanics) */
+@keyframes textclip { to { background-position: 200% center; } }
+@keyframes slideRight{
+  0% { transform: translateX(-120%); opacity: 0; }
+  100% { transform: translateX(0%); opacity: 1; }
+}
+@keyframes slideLeft{
+  0% { transform: translateX(320%); opacity: 0; }
+  100% { transform: translateX(0%); opacity: 1; }
+}
+@keyframes slideUp {
+  0% { transform: translateY(120%); opacity: 0; }
+  100% { transform: translateY(0%); opacity: 1; }
+}
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(-50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0% { opacity: 0.95; }
+  100% { opacity: 1; }
+}
+
+.feature-title {
+  background: linear-gradient(90deg, var(--prof-bg-medium), var(--prof-bg-dark)); /* Darker professional gradient */
+  border-radius: 10px; /* Consistent rounded corners */
+  margin-left: 30px;
+  color: var(--prof-text-on-dark);
+  box-shadow: var(--prof-shadow-stronger) 6px 6px; /* Adjusted shadow */
+  animation: slideRight 1000ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 16px 28px; /* Adjusted padding */
+  margin-bottom: 20px;
+  font-size: 1.7em; /* Adjusted font size */
+  font-weight: 600; /* Adjusted font weight */
+  text-transform: capitalize;
+  letter-spacing: 0.3px; /* Reduced letter spacing */
+  border: 1px solid var(--prof-accent-primary); /* Accent border */
+}
+
+.feature-list {
+  background-color: rgba(var(--prof-bg-light), 0.98);
+  border-radius: 10px;
+  margin-left: 30px;
+  box-shadow: var(--prof-shadow-stronger) 6px 6px;
+  color: var(--prof-text-on-light);
+  animation: slideRight 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) 300ms;
+  padding: 28px 35px; /* Adjusted padding */
+  margin-bottom: 40px;
+  border: 1px solid var(--prof-border-neutral); /* Neutral border */
+  line-height: 1.8;
+  font-size: 1.1em; /* Adjusted font size */
+}
+
+.home-subtitle {
+  font-size: 1.9em; /* Adjusted font size */
+  color: var(--prof-accent-primary); /* Accent color */
+  font-weight: 600;
+  margin-bottom: 35px; /* Adjusted margin */
+  text-shadow: 1px 1px var(--prof-shadow-color); /* Softer shadow */
+}
+
+.budget-text {
+  font-size: 1.4em; /* Adjusted font size */
+  line-height: 1.7;
+  color: var(--prof-text-on-light); /* Ensure readability on light backgrounds if applicable */
+}
+
+.budget-image {
+  animation: slideLeft 1000ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-radius: 12px; /* Consistent rounded corners */
+  box-shadow: var(--prof-shadow-stronger) 15px 15px 40px;
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease-out;
+  border: 3px solid var(--prof-bg-medium); /* Darker border */
+  background-color: var(--prof-bg-light);
+}
+
+.budget-image:hover {
+  transform: translateX(-12px) translateY(-12px) rotate(-1deg); /* Kept hover graphic */
+  box-shadow: var(--prof-shadow-stronger) 20px 20px 55px; /* Kept hover graphic */
+}
+
+.testimonial {
+  background: linear-gradient(45deg, var(--prof-bg-medium), var(--prof-bg-dark)); /* Dark professional gradient */
+  color: var(--prof-text-on-dark);
+  border-radius: 12px;
+  box-shadow: var(--prof-shadow-stronger) 8px 8px 20px; /* Adjusted shadow */
+  animation: slideUp 1000ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 35px; /* Adjusted padding */
+  margin-bottom: 40px;
+  font-size: 1.2em; /* Adjusted font size */
+  line-height: 1.8;
+  font-weight: 500;
+  border: 1px solid var(--prof-accent-primary); /* Accent border */
+}
+
+.testimonials-title {
+  color: var(--prof-accent-primary); /* Accent color */
+  text-shadow: 2px 2px var(--prof-shadow-stronger); /* Adjusted shadow */
+  margin-bottom: 35px;
+  font-size: 3.5em; /* Adjusted font size */
+  font-weight: 700; /* Adjusted font weight */
+}
+
+.card-features {
+  min-width: 90%;
+  margin: 50px auto 150px; /* Adjusted margin */
+  box-shadow: var(--prof-shadow-stronger) 15px 15px 50px; /* Adjusted shadow */
+  border-radius: 12px; /* Consistent rounded corners */
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease-out;
+  border: none;
+  background-color: var(--prof-bg-light);
+}
+
+.card-features:hover {
+  transform: translateY(-12px); /* Kept hover graphic */
+  box-shadow: var(--prof-shadow-stronger) 20px 20px 65px; /* Kept hover graphic */
+}
+
+.card-header-features {
+  background: linear-gradient(90deg, var(--prof-bg-medium), var(--prof-bg-dark)); /* Dark professional gradient */
+  color: var(--prof-text-on-dark);
+  padding: 24px; /* Adjusted padding */
+  font-weight: 600; /* Adjusted font weight */
+  text-align: center;
+  font-size: 1.8em; /* Adjusted font size */
+  border-bottom: 2px solid var(--prof-accent-primary); /* Accent divider */
+}
+
+.card-body-features {
+  padding: 35px; /* Adjusted padding */
+  background: var(--prof-bg-light);
+  color: var(--prof-text-on-light);
+}
+
+.card-testimonials {
+  background: var(--prof-bg-light);
+  color: var(--prof-text-on-light);
+  box-shadow: var(--prof-shadow-stronger) 15px 15px 50px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 50px; /* Adjusted margin */
+  border: none;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease-out;
+}
+
+.card-testimonials:hover {
+  transform: translateY(-10px); /* Kept hover graphic */
+  box-shadow: var(--prof-shadow-stronger) 20px 20px 65px; /* Kept hover graphic */
+}
+
+.card-header-testimonials {
+  background: linear-gradient(90deg, var(--prof-bg-dark), var(--prof-bg-medium)); /* Dark professional gradient */
+  color: var(--prof-text-on-dark);
+  padding: 24px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.8em;
+  border-bottom: 2px solid var(--prof-accent-primary);
+}
+
+.card-body-testimonials {
+  padding: 35px;
+}
+
+.footer {
+  background-color: var(--prof-bg-medium); /* Medium dark footer */
+  padding: 50px 0; /* Adjusted padding */
+  text-align: center;
+  border-top: 2px solid var(--prof-accent-primary); /* Accent border */
+  color: var(--prof-text-on-dark);
+}
+
+.footer-text {
+  font-size: 1em; /* Adjusted font size */
+  margin-bottom: 20px; /* Adjusted margin */
+}
+
+.social-links a {
+  color: var(--prof-accent-primary); /* Accent color for icons */
+  margin: 0 15px; /* Adjusted margin */
+  font-size: 2.2em; /* Adjusted font size */
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.social-links a:hover {
+  color: var(--prof-accent-secondary); /* Lighter accent on hover */
+  transform: scale(1.4) rotate(8deg); /* Kept hover graphic */
+}
+
+/* Responsive adjustments - Keeping existing breakpoints, values may need fine-tuning with new theme */
+@media screen and (max-width: 992px) {
+  .home-body h1 { font-size: 4.5em; } /* Adjusted */
+  .home-body h6 { font-size: 1.5em; padding: 25px 35px; } /* Adjusted */
+  .chart-image { width: 70%; } /* Adjusted */
+  .card-features, .card-testimonials { min-width: 95%; }
+  .feature-title, .feature-list { margin-left: 0; }
+  .testimonials-title { font-size: 3em; } /* Adjusted */
+  .card-header-features, .card-header-testimonials { font-size: 1.7em; } /* Adjusted */
+}
+
+@media screen and (max-width: 768px) {
+  .home-body h1 { font-size: 3.5em; letter-spacing: -1px;} /* Adjusted */
+  .home-body h6 { font-size: 1.3em; padding: 20px 30px; } /* Adjusted */
+  .chart-image { width: 85%; border-width: 3px;} /* Adjusted */
+  .feature-title { font-size: 1.5em; } /* Adjusted */
+  .feature-list { padding: 20px 25px; font-size: 1em; } /* Adjusted */
+  .home-subtitle { font-size: 1.7em; } /* Adjusted */
+  .budget-text { font-size: 1.2em; } /* Adjusted */
+  .budget-image { border-width: 3px; } /* Adjusted */
+  .testimonial { padding: 25px; font-size: 1.1em; } /* Adjusted */
+  .testimonials-title { font-size: 2.8em; } /* Adjusted */
+  .card-header-features, .card-header-testimonials { font-size: 1.6em; } /* Adjusted */
+  .card-body-features, .card-body-testimonials { padding: 25px; } /* Adjusted */
+  .footer-text { font-size: 0.95em; } /* Adjusted */
+  .social-links a { font-size: 2em; } /* Adjusted */
+  .login-signup-button { padding: 10px 24px; }
+  .nav-link { padding: 7px 12px; }
+}
+
+@media screen and (max-width: 480px) {
+  .home-body h1 { font-size: 2.8em; letter-spacing: -0.5px;} /* Adjusted */
+  .home-body h6 { font-size: 1.1em; padding: 18px 20px; } /* Adjusted */
+  .chart-image { width: 95%; border-width: 2px;} /* Adjusted */
+  .login-signup-button { padding: 9px 20px; font-size: 0.85em; } /* Adjusted */
+  .nav-link { font-size: 0.75em; padding: 6px 8px; border-radius: 6px;} /* Adjusted */
+  .feature-title { font-size: 1.3em; padding: 12px 20px; } /* Adjusted */
+  .feature-list { padding: 18px 20px; font-size: 0.95em; } /* Adjusted */
+  .home-subtitle { font-size: 1.5em; } /* Adjusted */
+  .budget-text { font-size: 1em; } /* Adjusted */
+  .budget-image { border-width: 2px; } /* Adjusted */
+  .testimonial { padding: 20px; font-size: 1em; } /* Adjusted */
+  .testimonials-title { font-size: 2.5em; } /* Adjusted */
+  .card-header-features, .card-header-testimonials { font-size: 1.4em; } /* Adjusted */
+  .card-body-features, .card-body-testimonials { padding: 20px; } /* Adjusted */
+  .footer-text { font-size: 0.85em; } /* Adjusted */
+  .social-links a { font-size: 1.8em; } /* Adjusted */
+}
