@@ -1,3 +1,5 @@
+// Updated Transactions.js with correct date parsing for accurate summary calculations
+
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME, QUERY_TRANSACTIONS } from "../utils/queries";
@@ -11,7 +13,6 @@ import "../styles/Transactions.css";
 
 const Transactions = ({ transactions, setTransactions }) => {
   const [showTransactionForm, setShowTransactionForm] = useState(false);
-  // const [transactionList, setTransactionList] = useState([]);
   const [transactionFormState, setTransactionFormState] = useState({
     date: "",
     amount: "",
@@ -19,35 +20,26 @@ const Transactions = ({ transactions, setTransactions }) => {
     category: "Housing",
     description: "",
   });
-  // uses moment.js to set start of current week starting on sunday formatted MM/DD/YYYY
-  const [startDate] = useState(
-    moment().startOf("week").format("L")
-  );
 
-  // uses moment.js to set end of current week ending on saturday formatted MM/DD/YYYY
+  const [startDate] = useState(moment().startOf("week").format("L"));
   const [endDate] = useState(moment().endOf("week").format("L"));
 
-  // query transaction data then destructure the transactions from all the data
   const { data, loading, refetch } = useQuery(QUERY_ME);
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
     update(cache, { data: { deleteTransaction } }) {
       try {
-        const { transactions } = cache.readQuery({
-          query: QUERY_TRANSACTIONS,
-        }) ?? { transactions: [] };
-  
+        const { transactions } = cache.readQuery({ query: QUERY_TRANSACTIONS }) ?? { transactions: [] };
         const updatedTransactions = transactions.filter(
           (transaction) => transaction._id !== deleteTransaction._id
         );
-  
+
         cache.writeQuery({
           query: QUERY_TRANSACTIONS,
           data: { transactions: updatedTransactions },
         });
-  
+
         const { me } = cache.readQuery({ query: QUERY_ME });
-  
         cache.writeQuery({
           query: QUERY_ME,
           data: {
@@ -61,8 +53,6 @@ const Transactions = ({ transactions, setTransactions }) => {
         console.log("error with mutation!");
         console.error(e);
       }
-      
-      console.log("updated cache:", cache.data.data);
       refetch();
     },
   });
@@ -70,38 +60,32 @@ const Transactions = ({ transactions, setTransactions }) => {
   const [addTransaction] = useMutation(ADD_TRANSACTION, {
     update(cache, { data: { addTransaction } }) {
       try {
-        const { transactions } = cache.readQuery({
-          query: QUERY_TRANSACTIONS,
-        }) ?? { transactions: [] };
-
+        const { transactions } = cache.readQuery({ query: QUERY_TRANSACTIONS }) ?? { transactions: [] };
         cache.writeQuery({
           query: QUERY_TRANSACTIONS,
           data: { transactions: [addTransaction, ...transactions] },
         });
-
         const { me } = cache.readQuery({ query: QUERY_ME });
-
         cache.writeQuery({
           query: QUERY_ME,
           data: {
-            me: { 
-              ...me, 
-              transactions: [addTransaction, ...me.transactions ],
+            me: {
+              ...me,
+              transactions: [addTransaction, ...me.transactions],
             },
           },
         });
-
       } catch (e) {
         console.log("error with mutation!");
         console.error(e);
       }
-      
-      
-      
-      console.log("updated cache:", cache.data.data);
     },
     variables: {
-      date: transactionFormState.date,
+      // Fix: convert DD/MM/YYYY to YYYY-MM-DD
+      date: (() => {
+        const [day, month, year] = transactionFormState.date.split("/");
+        return `${year}-${month}-${day}`;
+      })(),
       amount: parseFloat(transactionFormState.amount),
       highLevelCategory: transactionFormState.highLevelCategory,
       category: transactionFormState.category,
@@ -116,56 +100,35 @@ const Transactions = ({ transactions, setTransactions }) => {
     }
   });
 
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
 
   const transactionsData =
     data?.me.transactions.map((transaction) => ({
       ...transaction,
-      date: moment.unix(transaction.date / 1000).format("MM/DD/YYYY"),
+      date: moment.unix(transaction.date / 1000).format("DD/MM/YYYY"),
     })) || [];
 
   const currentDate = moment().format("L");
   const currentMonth = moment().format("M");
 
-  const todaySpending = transactionsData
-    .reduce((acc, transaction) => {
-      if (moment(transaction.date).format("L") === currentDate) {
-        return acc + transaction.amount;
-      }
+  const todaySpending = transactionsData.reduce((acc, transaction) => {
+    return moment(transaction.date).format("L") === currentDate
+      ? acc + transaction.amount
+      : acc;
+  }, 0).toLocaleString("en-IN", { style: "currency", currency: "INR" });
 
-      return acc;
-    }, 0)
+  const currentWeekSpending = transactionsData.reduce((acc, transaction) => {
+    const transactionDate = moment(transaction.date).format("L");
+    return transactionDate >= startDate && transactionDate <= endDate
+      ? acc + transaction.amount
+      : acc;
+  }, 0).toLocaleString("en-IN", { style: "currency", currency: "INR" });
 
-    .toLocaleString("en-IN", { style: "currency", currency: "INR" });
-
-  const currentWeekSpending = transactionsData
-    .reduce((acc, transaction) => {
-      const transactionDate = moment(transaction.date).format("L");
-
-      if (transactionDate >= startDate && transactionDate <= endDate) {
-        return acc + transaction.amount;
-      }
-
-      return acc;
-    }, 0)
-
-    .toLocaleString("en-IN", { style: "currency", currency: "INR" });
-
-  const currentMonthSpending = transactionsData
-    .reduce((acc, transaction) => {
-      if (moment(transaction.date).format("M") === currentMonth) {
-        return acc + transaction.amount;
-      }
-
-      return acc;
-    }, 0)
-
-    .toLocaleString("en-IN", { style: "currency", currency: "INR" });
-
-  // come up with calculations here
+  const currentMonthSpending = transactionsData.reduce((acc, transaction) => {
+    return moment(transaction.date).format("M") === currentMonth
+      ? acc + transaction.amount
+      : acc;
+  }, 0).toLocaleString("en-IN", { style: "currency", currency: "INR" });
 
   return (
     <div className="container transaction-page">
@@ -176,7 +139,7 @@ const Transactions = ({ transactions, setTransactions }) => {
       <div className="row">
         <div className="col">
           <div className="card">
-            <div className="card-body text-dark">
+            <div className="card-body text-light">
               <h4>Spending for {currentDate}:</h4>
               <p className="text-danger spending">{todaySpending}</p>
             </div>
@@ -185,10 +148,8 @@ const Transactions = ({ transactions, setTransactions }) => {
 
         <div className="col">
           <div className="card">
-            <div className="card-body text-dark">
-              <h4>
-                Expenditure for Current Week ({startDate} - {endDate}):
-              </h4>
+            <div className="card-body text-light">
+              <h4>Expenditure for Current Week ({startDate} - {endDate}):</h4>
               <p className="text-danger spending">{currentWeekSpending}</p>
             </div>
           </div>
@@ -196,16 +157,16 @@ const Transactions = ({ transactions, setTransactions }) => {
 
         <div className="col">
           <div className="card">
-            <div className="card-body text-dark">
+            <div className="card-body text-light">
               <h4>Expenditure for Current Month:</h4>
               <p className="text-danger spending">{currentMonthSpending}</p>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div className="mt-5 text-center">
-      <h1 id="transaction-table-header">Your Transactions</h1>
+        <h1 id="transaction-table-header">Your Transactions</h1>
         <button
           className="btn add-transaction-button"
           onClick={() => setShowTransactionForm(!showTransactionForm)}
@@ -222,7 +183,6 @@ const Transactions = ({ transactions, setTransactions }) => {
                 <Modal.Body>
                   <TransactionForm
                     setShowTransactionForm={setShowTransactionForm}
-                    // addTransactionList={addTransactionList}
                     addTransaction={addTransaction}
                     transactions={transactions}
                     setTransactions={setTransactions}
@@ -235,7 +195,7 @@ const Transactions = ({ transactions, setTransactions }) => {
           </div>
         )}
       </div>
-      
+
       <div className="mt-4 d-flex justify-content-center">
         <TransactionTable
           data={data}

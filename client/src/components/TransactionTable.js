@@ -4,14 +4,14 @@ import { formatDate, formatAmountDecimal } from "../utils/helpers.js";
 import Auth from "../utils/auth";
 import { GoTrash } from "react-icons/go";
 
-const TransactionTable = ({
+  const TransactionTable = ({
   data,
   loading,
   deleteTransaction,
-  transactions,
+  transactions = [],
   setTransactions,
 }) => {
-  const [sortOption, setSortOption] = useState("date");
+    const [sortOption, setSortOption] = useState("date");
 
   if (loading) {
     return <div>Loading...</div>;
@@ -101,7 +101,7 @@ const TransactionTable = ({
           <thead>
             <tr>
               <th scope="col">Date</th>
-              <th scope="col">Essential?</th>
+              <th scope="col">Essential</th>
               <th scope="col">Category</th>
               <th scope="col">Amount</th>
               <th scope="col">Description</th>

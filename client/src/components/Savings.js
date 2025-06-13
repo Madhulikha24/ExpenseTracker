@@ -51,7 +51,7 @@ export default function Savings({ currentMonthHighLevel }) {
     );
     console.log(calculatedSavings);
     const result = formatAmount(calculatedSavings.toFixed(0));
-    document.getElementById("result").innerHTML = `$${result}`;
+    document.getElementById("result").innerHTML = `${result}`;
     return result;
   }
 
@@ -98,18 +98,18 @@ export default function Savings({ currentMonthHighLevel }) {
         <h5 className="mb-3 blue-text">
           Your total non-essential spending for {currentMonthYear} is{" "}
           <span className="red-text">
-            ${formatAmount(nonEssentialSpending)}
+            {formatAmount(nonEssentialSpending)}
           </span>
           .
         </h5>
         <h5 className="mb-3 blue-text">
           If you were to save 10% of your non-essential expenses, that would be{" "}
-          <span className="red-text">${formatAmount(PMT)}</span> per month.
+          <span className="red-text">{formatAmount(PMT)}</span> per month.
         </h5>
         <h5 className="blue-text">
           If you were to invest those savings at an average 5% return over 10
           years, compounded monthly, you would save{" "}
-          <span className="red-text">${formatAmount(savings.toFixed(0))}</span>
+          <span className="red-text">{formatAmount(savings.toFixed(0))}</span>
         </h5>
       </div>
       <div className="calculator-div">
@@ -117,7 +117,7 @@ export default function Savings({ currentMonthHighLevel }) {
         <h6>Find out how much you could save over the long term!</h6>
         <form className="calculator-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="initialAmount">Initial Amount (USD):</label>
+            <label htmlFor="initialAmount">Initial Amount (INR):</label>
             <input
               className="form-control"
               id="initialAmount"
@@ -128,7 +128,7 @@ export default function Savings({ currentMonthHighLevel }) {
 
           <div className="form-group">
             <label htmlFor="monthlyContribution">
-              Monthly Contribution Amount (USD):
+              Monthly Contribution Amount (INR):
             </label>
             <input
               className="form-control"

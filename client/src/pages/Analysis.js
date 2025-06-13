@@ -1,94 +1,110 @@
+// Analysis.txt
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import { Chart, ArcElement } from "chart.js/auto";
+import { Chart, ArcElement, Tooltip, Legend } from "chart.js/auto";
 import { Pie } from "react-chartjs-2";
 import "../styles/Analysis.css";
 import Savings from "../components/Savings";
 import Dropdown from "../components/Dropdown";
 import { formatAmount } from "../utils/helpers";
 
-// import { getHighLevel, getEssentialTransactions, getUser } from "../utils/api";
+Chart.register(ArcElement, Tooltip, Legend);
 
 export default function Analysis({ transactions, setTransactions }) {
   const [selectedOption, setSelectedOption] = useState('CurrentMTD');
-
-  Chart.register(ArcElement);
   const { data, loading } = useQuery(QUERY_ME);
 
   useEffect(() => {
     if (data?.me?.transactions) {
-      setTransactions(data?.me?.transactions);
+      setTransactions(data.me.transactions);
+      console.log("Fetched transactions (raw from backend):", data.me.transactions); // LOG 1: Check raw fetched data
     }
-  }, [data]);
+  }, [data, setTransactions]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  const handleOptionChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
   }
+
   let selectedTransactions = [];
   let selectedTimePeriod = "";
   let selectedTotal;
 
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth();
+  const currentMonth = currentDate.getMonth(); // 0-indexed (0 for Jan)
   const currentYear = currentDate.getFullYear();
+
   const priorMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+  const priorMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
   const priorYear = currentYear - 1;
-  console.log("**********PRIOR YEAR: ", priorYear);
-  
-  // Filter transactions for current month and year
+
+  // Optimized parseTransactionDate for Unix timestamps (number or string)
+  const parseTransactionDate = (dateValue) => {
+    let timestamp = Number(dateValue); // Convert to number, handles both string "123" and number 123
+    if (isNaN(timestamp)) {
+      console.warn("Invalid timestamp encountered:", dateValue);
+      return null; // Return null if it's not a valid number
+    }
+    const dateObj = new Date(timestamp);
+    if (dateObj instanceof Date && !isNaN(dateObj)) {
+      return dateObj;
+    }
+    console.warn("Could not create valid Date object from timestamp:", dateValue);
+    return null;
+  };
+
+
   const currentMonthTransactions = transactions.filter(transaction => {
-    const transactionDate = new Date(parseInt(transaction.date));
-    return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+    const transactionDate = parseTransactionDate(transaction.date);
+    // Add a log here to see the parsed Date object and its month/year
+    console.log(`Transaction Date (Parsed): ${transactionDate}, Month: ${transactionDate?.getMonth()}, Year: ${transactionDate?.getFullYear()}`);
+    return transactionDate && transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
   });
-  
-  // Sum transaction amounts for current month to date
+  console.log("Current Month Transactions (filtered):", currentMonthTransactions); // LOG 2
+
   const currentMonthToDateSum = currentMonthTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  // Filter transactions for current year
+
   const currentYearTransactions = transactions.filter(transaction => {
-    const transactionDate = new Date(parseInt(transaction.date));
-    return transactionDate.getFullYear() === currentYear;
+    const transactionDate = parseTransactionDate(transaction.date);
+    return transactionDate && transactionDate.getFullYear() === currentYear;
   });
-  
-  // Sum transaction amounts for current year to date
+  console.log("Current Year Transactions (filtered):", currentYearTransactions); // LOG 3
+
   const currentYearToDateSum = currentYearTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  // Filter transactions for prior month and year
+
   const priorMonthTransactions = transactions.filter(transaction => {
-    const transactionDate = new Date(parseInt(transaction.date));
-    return transactionDate.getMonth() === priorMonth && transactionDate.getFullYear() === currentYear;
+    const transactionDate = parseTransactionDate(transaction.date);
+    return transactionDate && transactionDate.getMonth() === priorMonth && transactionDate.getFullYear() === priorMonthYear;
   });
-  
-  // Sum transaction amounts for prior month to date
+  console.log("Prior Month Transactions (filtered):", priorMonthTransactions); // LOG 4
+
   const priorMonthToDateSum = priorMonthTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  // Filter transactions for prior year
+
   const priorYearTransactions = transactions.filter(transaction => {
-    const transactionDate = new Date(parseInt(transaction.date));
-    return transactionDate.getFullYear() === priorYear;
+    const transactionDate = parseTransactionDate(transaction.date);
+    return transactionDate && transactionDate.getFullYear() === priorYear;
   });
-  
-  // Sum transaction amounts for prior year to date
+  console.log("Prior Year Transactions (filtered):", priorYearTransactions); // LOG 5
+
   const priorYearToDateSum = priorYearTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
+
   console.log("CURRENT MTD SUM: ", currentMonth, ": ", currentMonthToDateSum);
   console.log("CURRENT YTD SUM: ", currentYear, ": ", currentYearToDateSum);
   console.log("PRIOR MTD SUM: ", priorMonth, ": ", priorMonthToDateSum);
   console.log("PRIOR YTD SUM: ", priorYear, ": ", priorYearToDateSum);
-  
+
   switch(selectedOption) {
     case "CurrentMTD":
       selectedTransactions = currentMonthTransactions;
@@ -116,9 +132,8 @@ export default function Analysis({ transactions, setTransactions }) {
       selectedTotal = currentMonthToDateSum;
   }
 
-  // const transactions = data?.me.transactions || [];
-  const calcHighLevelCategory = (transactions) =>
-    transactions.reduce((acc, cur) => {
+  const calcHighLevelCategory = (transactionsArray) =>
+    transactionsArray.reduce((acc, cur) => {
       const { highLevelCategory, amount } = cur;
       const item = acc.find((it) => it.highLevelCategory === highLevelCategory);
       item ? (item.amount += amount) : acc.push({ highLevelCategory, amount });
@@ -128,10 +143,10 @@ export default function Analysis({ transactions, setTransactions }) {
   let sumHighLevel = calcHighLevelCategory(selectedTransactions);
   let currentMonthHighLevel = calcHighLevelCategory(currentMonthTransactions);
 
-  console.log("Essential vs NonEssential: ", sumHighLevel);
+  console.log("Essential vs NonEssential (sumHighLevel): ", sumHighLevel); // LOG 6
 
-  const calcCategory = (transactions) =>
-    transactions.reduce((acc, cur) => {
+  const calcCategory = (transactionsArray) =>
+    transactionsArray.reduce((acc, cur) => {
       const { category, amount } = cur;
       const item = acc.find((it) => it.category === category);
       item ? (item.amount += amount) : acc.push({ category, amount });
@@ -139,12 +154,10 @@ export default function Analysis({ transactions, setTransactions }) {
     }, []);
 
   let sumCategory = calcCategory(selectedTransactions);
-  console.log("by Category: ", sumCategory);
-  let sumAll = 0;
-  for (let i = 0; i < transactions.length; i++) {
-    sumAll += transactions[i].amount;
-  }
-  console.log("TOTAL SUM!! ", sumAll);
+  console.log("by Category (sumCategory): ", sumCategory); // LOG 7
+
+  let sumAll = transactions.reduce((total, transaction) => total + transaction.amount, 0);
+  console.log("TOTAL SUM (All Transactions): ", sumAll);
 
   const categoryData = {
     labels: [
@@ -195,8 +208,51 @@ export default function Analysis({ transactions, setTransactions }) {
         hoverOffset: 4,
       },
     ],
-    options: {
-      responsive: true,
+  };
+
+  const commonPieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "white",
+          font: {
+            size: 10,
+          },
+          boxWidth: 20,
+          padding: 10,
+          usePointStyle: true,
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            let label = context.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed !== null) {
+              label += formatAmount(context.parsed);
+            }
+            return label;
+          }
+        }
+      }
+    },
+  };
+
+  const highLevelLegendOptions = {
+    ...commonPieChartOptions.plugins.legend,
+    labels: {
+      ...commonPieChartOptions.plugins.legend.labels,
+      font: {
+        ...commonPieChartOptions.plugins.legend.labels.font,
+        size: 12,
+      },
+      maxWidth: 150,
+      
     },
   };
 
@@ -215,9 +271,6 @@ export default function Analysis({ transactions, setTransactions }) {
         hoverOffset: 4,
       },
     ],
-    options: {
-      responsive: true,
-    },
   };
 
   return (
@@ -226,26 +279,24 @@ export default function Analysis({ transactions, setTransactions }) {
       <Dropdown onOptionChange={handleOptionChange} />
       <div className="row d-flex justify-content-around">
         <div className="col col-sm-12 col-lg-6" id="pie-chart-1">
-        <div className="row">
+          <div className="row">
             <div className="card card-chart ml-5">
               <div className="card-header card-chart-header">
                 <h3 className="chart-title text-center text-light">{selectedTimePeriod}</h3>
-                <h4>Total: ${formatAmount(selectedTotal)}</h4>
+                <h4>Total: {formatAmount(selectedTotal)}</h4>
                 <h3 className="chart-title text-center text-light">
                   <span className="blue-text">Essential</span> vs <span className="red-text">Non-Essential</span>
                 </h3>
               </div>
               <div className="card-body card-chart-body m-5">
-                
                 <Pie
                   className="chart chartjs-render-monitor chart-legend"
                   data={highLevelCategoryData}
                   options={{
+                    ...commonPieChartOptions,
                     plugins: {
-                      legend: {
-                        position: "bottom",
-                        labels: { color: "black", wordWrap: true, maxWidth: 150 },
-                      },
+                      ...commonPieChartOptions.plugins,
+                      legend: highLevelLegendOptions,
                     },
                   }}
                 ></Pie>
@@ -256,7 +307,7 @@ export default function Analysis({ transactions, setTransactions }) {
             <div className="card card-chart ml-5">
               <div className="card-header card-chart-header">
                 <h3 className="chart-title text-center text-light">{selectedTimePeriod}</h3>
-                <h4>Total: ${formatAmount(selectedTotal)}</h4>
+                <h4>Total: {formatAmount(selectedTotal)}</h4>
                 <h4 className="chart-title text-centermb-2 text-light">
                   by Category
                 </h4>
@@ -265,19 +316,11 @@ export default function Analysis({ transactions, setTransactions }) {
                 <Pie
                   className="chart chartjs-render-monitor chart-legend"
                   data={categoryData}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: "bottom",
-                        labels: { color: "black", wordWrap: true, maxWidth: 150, fontSize: 10 },
-                      },
-                    },
-                  }}
+                  options={commonPieChartOptions}
                 ></Pie>
               </div>
             </div>
           </div>
-          
         </div>
         <div className="col col-sm-12 col-lg-6 mt-5">
           <Savings currentMonthHighLevel={currentMonthHighLevel} />

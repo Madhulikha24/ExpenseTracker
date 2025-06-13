@@ -1,7 +1,8 @@
 :root {
-  /* Inherits existing variables from Home.css for consistency */
-  --dollar-bill-green: #85bb65; /* Keeping this for reference, but replacing usage */
-  --blue: #7583a7; /* Keeping this for reference, but replacing usage */
+  /* Inherits existing variables from Home.css for consistency *
+  /* Keeping this for reference, but replacing usage */
+  --blue: #7583a7;
+  /* Keeping this for reference, but replacing usage */
   /* Using theme-defined shadow for consistency */
   --text-shadow: var(--shadow-dark-subtle);
 }
@@ -9,7 +10,8 @@
 body {
     /* Add perspective to the body or a main container if most elements are 3D */
     /* This creates a viewing context for 3D transformations */
-    perspective: 1500px; /* Adjust value for more/less intense 3D effect */
+    perspective: 1500px;
+/* Adjust value for more/less intense 3D effect */
 }
 
 #charts-title {
@@ -40,8 +42,8 @@ body {
 
 #dropdown {
   font-size: 0.65em;
-  color: var(--text-primary);
-  background-color: var(--medium-grey);
+  color:black;
+  background-color: white;
   padding: 0.25em;
   border: var(--classic-beige) solid 2px;
   border-radius: 10px;
@@ -50,23 +52,31 @@ body {
 .card-chart {
   min-width: 45vw;
   /* Add perspective and transform-style for 3D effects on card */
-  perspective: 1000px; /* Perspective for the card itself */
-  transform-style: preserve-3d; /* Allows children to be positioned in 3D space */
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease; /* Smooth transition for 3D effects */
-  cursor: pointer; /* Indicate interactivity */
+  perspective: 1000px;
+  /* Perspective for the card itself */
+  transform-style: preserve-3d;
+  /* Allows children to be positioned in 3D space */
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease;
+  /* Smooth transition for 3D effects */
+  cursor: pointer;
+  /* Indicate interactivity */
 }
 
 .card-chart:hover {
-    transform: rotateY(5deg) rotateX(2deg) scale(1.03) translateZ(20px); /* Subtle 3D tilt and lift */
-    box-shadow: var(--shadow-dark-subtle) 8px 8px 30px rgba(0, 0, 0, 0.5); /* Enhanced shadow on hover */
+    transform: rotateY(5deg) rotateX(2deg) scale(1.03) translateZ(20px);
+/* Subtle 3D tilt and lift */
+    box-shadow: var(--shadow-dark-subtle) 8px 8px 30px rgba(0, 0, 0, 0.5);
+/* Enhanced shadow on hover */
 }
 
 .card {
   background: var(--background-light);
   box-shadow: var(--shadow-dark-subtle) 3px 3px;
   padding: 0;
-  transform-style: preserve-3d; /* Keep this if you have nested 3D elements */
-  transition: transform 0.6s ease; /* For any nested transforms */
+  transform-style: preserve-3d;
+  /* Keep this if you have nested 3D elements */
+  transition: transform 0.6s ease;
+  /* For any nested transforms */
 }
 
 .card-chart-header {
@@ -78,17 +88,21 @@ body {
 
 .card-chart-body {
   background: var(--background-light);
+  
 }
 
 canvas {
   width: 75% !important;
   margin: auto !important;
   /* Ensure canvas also participates in 3D if card rotates */
-  transform: translateZ(0); /* Puts canvas on the Z-plane of the card */
+  transform: translateZ(0);
+  /* Puts canvas on the Z-plane of the card */
+  
 }
 
 .chart {
   margin-top: 0;
+  
 }
 
 .savings {
@@ -102,7 +116,8 @@ canvas {
 }
 
 .savings:hover {
-    transform: translateY(-5px); /* Simple lift effect */
+    transform: translateY(-5px);
+/* Simple lift effect */
     box-shadow: var(--shadow-dark-subtle) 0px 5px 15px;
 }
 
@@ -117,11 +132,13 @@ canvas {
   background: var(--medium-grey);
   margin: 15px 30px;
   padding: 15px 0;
-  transition: transform 0.5s ease; /* Add transition for 3D effect */
+  transition: transform 0.5s ease;
+  /* Add transition for 3D effect */
 }
 
 .calculator-div:hover {
-    transform: perspective(1000px) rotateX(2deg) translateZ(10px); /* Subtle tilt */
+    transform: perspective(1000px) rotateX(2deg) translateZ(10px);
+/* Subtle tilt */
     box-shadow: var(--shadow-dark-subtle) 0px 10px 25px; /* Enhanced shadow */
 }
 
@@ -161,13 +178,16 @@ canvas {
   box-shadow: var(--shadow-dark-subtle) 0px 6px 15px;
   transition: all 0.3s ease;
   background-size: 200% auto;
-  transform-style: preserve-3d; /* For possible nested 3D elements like icons */
-  transform: translateZ(0); /* Initialize Z-position */
+  transform-style: preserve-3d;
+  /* For possible nested 3D elements like icons */
+  transform: translateZ(0);
+  /* Initialize Z-position */
 }
 
 .calc-button:hover {
   background-position: right center;
-  transform: translateY(-3px) scale(1.02) translateZ(15px); /* Lift and push forward */
+  transform: translateY(-3px) scale(1.02) translateZ(15px);
+  /* Lift and push forward */
   box-shadow: var(--shadow-dark-subtle) 0px 8px 20px;
 }
 
@@ -194,7 +214,8 @@ canvas {
     height: 50vh; 
     margin: 15px auto; 
     transform: none !important; /* Disable complex 3D on smaller screens if performance is an issue */
-    box-shadow: var(--shadow-dark-subtle) 3px 3px !important; /* Reset shadow */
+    box-shadow: var(--shadow-dark-subtle) 3px 3px !important;
+/* Reset shadow */
   }
 
   .canvas {
@@ -207,17 +228,21 @@ canvas {
 @media screen and (max-width: 767px) { /* Mobile viewport */
   
   .card-chart {
-    margin: 15px auto !important; 
+    
+    margin: 15px auto !important;
     width: 90vw !important;
     transform: none !important; /* Disable complex 3D on smaller screens */
-    box-shadow: var(--shadow-dark-subtle) 3px 3px !important; /* Reset shadow */
+    box-shadow: var(--shadow-dark-subtle) 3px 3px !important;
+/* Reset shadow */
   }
 
   .card-body {
+    
     margin: 15px !important;
   }
   
   canvas {
+    
     width: 100% !important;
     flex: auto !important;
     margin: auto !important;
@@ -226,6 +251,6 @@ canvas {
   /* Disable complex 3D effects on mobile for performance */
   .calculator-div:hover, .calc-button:hover {
       transform: none !important;
-      box-shadow: var(--shadow-dark-subtle) 0px 6px 15px !important; /* Reset button shadow */
+    box-shadow: var(--shadow-dark-subtle) 0px 6px 15px !important; /* Reset button shadow */
   }
 }

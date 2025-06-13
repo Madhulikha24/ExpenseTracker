@@ -19,12 +19,23 @@ class AuthService {
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
+      // If the token's expiration time (exp) is less than the current time, it's expired
       if (decoded.exp < Date.now() / 1000) {
-        localStorage.removeItem('id_token');
+        localStorage.removeItem('id_token'); // Remove expired token
+        // Use a more React-friendly way to redirect if possible,
+        // window.location.assign will cause a full page reload.
+        // For example, using React Router's history.push if applicable.
+        // For this context, keeping it as is, but be aware of its impact.
         window.location.assign('/');
-      } else return false;
+        return true; // Token is expired
+      }
+      return false; // Token is not expired
     } catch (err) {
-      return false;
+      // If there's an error decoding (e.g., malformed token), treat as expired
+      console.error("Error decoding token:", err);
+      localStorage.removeItem('id_token'); // Clean up potentially bad token
+      // window.location.assign('/'); // Redirect on error to ensure clean state
+      return true; // Treat as expired if decoding fails
     }
   }
 
@@ -36,6 +47,9 @@ class AuthService {
   login(idToken) {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
+    // As noted above, window.location.assign('/') causes a full reload.
+    // Consider using React Router's `history.push('/')` or `navigate('/')`
+    // if you have a client-side routing library, for a smoother UX.
     window.location.assign('/');
   }
 
@@ -47,4 +61,6 @@ class AuthService {
   }
 }
 
-export default new AuthService();
+// Assign the instance to a variable before exporting as module default
+const authServiceInstance = new AuthService();
+export default authServiceInstance;
