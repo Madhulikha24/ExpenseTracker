@@ -6,17 +6,6 @@
 
 
   
-  ## Table of Contents
-  
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [License](#license)
-  - [Contributors](#contributors)
-  - [Tests](#tests)
-  - [Questions](#questions)
-  
-
-  
   ## Usage
   
   sign up/log in to deployed URL above
